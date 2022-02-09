@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: deploys
+  name: app3
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: {{ .Values.app3.spec.destination.namespace }}
+    server: {{ .Values.app3.spec.destination.server }}
+  project: default
+  source:
+    path: {{ .Values.app3.spec.source.path }}
+    repoURL: {{ .Values.app3.spec.source.repoURL }}
+    targetRevision: {{ .Values.app3.spec.source.targetRevision }}
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
