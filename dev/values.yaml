@@ -1,0 +1,18 @@
+app1:
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: dev
+    source:
+      path: manifests/nginx
+      repoURL: https://github.com/hlalli/argo-cd-demo/
+      targetRevision: HEAD
+app2:
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: dev
+    source:
+      path: manifests/nginx2
+      repoURL: https://github.com/hlalli/argo-cd-demo/
+      targetRevision: HEAD
