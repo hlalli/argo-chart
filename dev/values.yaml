@@ -25,3 +25,13 @@ app3:
       path: manifests/nginx3
       repoURL: https://github.com/hlalli/argo-cd-demo/
       targetRevision: HEAD
+
+app4:
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: dev
+    source:
+      path: manifests/nginx4
+      repoURL: https://github.com/hlalli/argo-cd-demo/
+      targetRevision: HEAD

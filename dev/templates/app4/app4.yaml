@@ -3,19 +3,19 @@ kind: Application
 metadata:
   annotations:
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: deploys
-  name: app1-dev
+  name: app4-dev
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: {{ .Values.app1.spec.destination.namespace }}
-    server: {{ .Values.app1.spec.destination.server }}
+    namespace: {{ .Values.app4.spec.destination.namespace }}
+    server: {{ .Values.app4.spec.destination.server }}
   project: dev
   source:
-    path: {{ .Values.app1.spec.source.path }}
-    repoURL: {{ .Values.app1.spec.source.repoURL }}
-    targetRevision: {{ .Values.app1.spec.source.targetRevision }}
+    path: {{ .Values.app4.spec.source.path }}
+    repoURL: {{ .Values.app4.spec.source.repoURL }}
+    targetRevision: {{ .Values.app4.spec.source.targetRevision }}
   syncPolicy:
     automated:
       prune: false

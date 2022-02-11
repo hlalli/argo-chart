@@ -11,7 +11,7 @@ spec:
   destination:
     namespace: {{ .Values.app2.spec.destination.namespace }}
     server: {{ .Values.app2.spec.destination.server }}
-  project: default
+  project: dev
   source:
     path: {{ .Values.app2.spec.source.path }}
     repoURL: {{ .Values.app2.spec.source.repoURL }}
