@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-nubi-2
+spec:
+  selector:
+    matchLabels:
+      run: demo-nubi-2
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: demo-nubi-2
+    spec:
+      containers:
+      - name: demo-nubi-2
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-nubi-2
+  labels:
+    run: demo-nubi-2
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  type: LoadBalancer
+  selector:
+    run: demo-nubi-2
