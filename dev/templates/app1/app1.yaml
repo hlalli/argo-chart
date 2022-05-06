@@ -3,7 +3,7 @@ kind: Application
 metadata:
   annotations:
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: deploys
-    checksum/config: {{ include ("dev/manifests/nginx/configmap.yaml") . | sha256sum }}
+    checksum/config: {{ include (print $.Template.BasePath "/app1/configmap.yaml") . | sha256sum }}
   name: app1-dev
   namespace: argocd
   finalizers:
