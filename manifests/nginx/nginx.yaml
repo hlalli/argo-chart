@@ -17,6 +17,20 @@ spec:
         image: nginx
         ports:
         - containerPort: 80
+        env:
+        - name: PRUEBA_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: nginx-config
+              # Specify the key associated with the value
+              key: prueba
+        - name: PRUEBA2_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: nginx-config
+              # Specify the key associated with the value
+              key: prueba2
+        
 ---
 apiVersion: v1
 kind: Service
