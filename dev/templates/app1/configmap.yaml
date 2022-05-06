@@ -6,5 +6,5 @@ metadata:
   labels:
     run: demo-nubi
 data:
-  prueba: config 
+  prueba: config-cambio1
   prueba2: config2
