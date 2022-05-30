@@ -1,0 +1,34 @@
+{{- range $originsPath, $globlBytes := .Files.Glob "apps/*.yml" -}}
+{{ $originsData := $.Files.Get $originsPath | fromYaml -}}
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: {{ $originsData.metadata.annotations.slack_ok }}
+    notifications.argoproj.io/subscribe.on-deployed.slack: {{ $originsData.metadata.annotations.slack_ok }}
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: {{ $originsData.metadata.annotations.slack_ok }}
+    notifications.argoproj.io/subscribe.on-health-degraded.slack: {{ $originsData.metadata.annotations.slack_ok }}
+  name: {{ $originsData.metadata.name }}
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: {{ $originsData.spec.destination.namespace }}
+    server: {{ $originsData.spec.destination.server }}
+  project: {{ $originsData.spec.project }}
+  source:
+    path: {{ $originsData.spec.source.path }}
+    repoURL: {{ $originsData.spec.source.repoURL }}
+    targetRevision: {{ $originsData.spec.source.targetRevision }}
+  syncPolicy:
+    automated:
+      prune: {{ $originsData.spec.syncPolicy.automated.prune }}
+      selfHeal: {{ $originsData.spec.syncPolicy.automated.selfHeal }}
+    syncOptions:
+    - CreateNamespace=true
+
+{{ end -}}
