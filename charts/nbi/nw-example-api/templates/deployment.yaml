@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    name: nw-example-api
+spec:
+  selector:
+    matchLabels:
+      run: nw-example-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: nw-example-api
+    spec:
+      containers:
+      - name: nw-example-api
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: PRUEBA_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: nginx-config
+              # Specify the key associated with the value
+              key: prueba
+        - name: PRUEBA2_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: nginx-config
+              # Specify the key associated with the value
+              key: prueba2
