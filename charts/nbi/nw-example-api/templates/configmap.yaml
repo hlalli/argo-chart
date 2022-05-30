@@ -6,5 +6,5 @@ metadata:
   labels:
     run: nw-example-api
 data:
-  prueba: config-cambio-checksum
+  prueba: config-cambio-checksum-toma2
   prueba2: config2
