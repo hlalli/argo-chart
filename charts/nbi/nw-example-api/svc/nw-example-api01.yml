@@ -1,0 +1,5 @@
+metadata:
+  name: nw-example-api01
+spec:
+  port: 80
+  type: LoadBalancer

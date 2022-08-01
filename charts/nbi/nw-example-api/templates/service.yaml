@@ -1,13 +1,18 @@
+{{- range $servicePath, $serviceBytes := .Files.Glob "svc/*.yml" -}}
+{{ $serviceData := $.Files.Get $servicePath | fromYaml -}}
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: nw-example-api
+  name: {{ $serviceData.metadata.name }}
   labels:
-    run: nw-example-api
+    run: {{ $serviceData.metadata.name }}
 spec:
   ports:
-  - port: 80
+  - port: {{ $serviceData.spec.port }}
     protocol: TCP
-  type: LoadBalancer
+  type: {{ $serviceData.spec.type }}
   selector:
-    run: nw-example-api
+    run: {{ $serviceData.metadata.name }}

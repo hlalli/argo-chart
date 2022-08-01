@@ -1,10 +1,16 @@
+{{- range $configPath, $configBytes := .Files.Glob "config/*.yml" -}}
+{{ $configData := $.Files.Get $configPath | fromYaml -}}
+
+---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-config
-  namespace: dev
+  name: {{ $configData.metadata.name }}
+  namespace: {{ $configData.metadata.namespace }}
   labels:
-    run: nw-example-api
+    run: {{ $configData.metadata.name }}
 data:
-  prueba: config-cambio-checksum-tomaIII
-  prueba2: configIII-tambien
+  {{- range $key, $val := $configData.data }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

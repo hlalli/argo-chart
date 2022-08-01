@@ -1,0 +1,13 @@
+metadata:
+  name: nw-example-api02
+spec:
+  replicas: 1
+  image: nginx
+  containerPort: 80
+  configuration:
+    key: PRUEBA_CONFIG
+      configMapName: nginx-config
+      valueKey: prueba
+    key: PRUEBA2_CONFIG
+      configMapName: nginx-config
+      valueKey: prueba2

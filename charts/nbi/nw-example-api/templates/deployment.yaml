@@ -1,34 +1,34 @@
+{{- range $appsPath, $appsBytes := .Files.Glob "apps/*.yml" -}}
+{{ $appsData := $.Files.Get $appsPath | fromYaml -}}
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nw-example-api
+  name: {{ $appsData.metadata.name }}
 spec:
   selector:
     matchLabels:
-      run: nw-example-api
-  replicas: 1
+      run: {{ $appsData.metadata.name }}
+  replicas: {{ $appsData.spec.replicas }}
   template:
     metadata:
       labels:
-        run: nw-example-api
+        run: {{ $appsData.metadata.name }}
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (printf "config/$s.yml" $appsData.metadata.name ) . | sha256sum }}
     spec:
       containers:
-      - name: nw-example-api
-        image: nginx
+      - name: {{ $appsData.metadata.name }}
+        image: {{ $appsData.spec.image }}
         ports:
-        - containerPort: 80
+        - containerPort: {{ $appsData.spec.containerPort }}
         env:
-        - name: PRUEBA_CONFIG
+        {{- range $appsData.spec.configuration }}
+        - name: {{ .key }}
           valueFrom:
             configMapKeyRef:
-              name: nginx-config
-              # Specify the key associated with the value
-              key: prueba
-        - name: PRUEBA2_CONFIG
-          valueFrom:
-            configMapKeyRef:
-              name: nginx-config
-              # Specify the key associated with the value
-              key: prueba2
+              name: {{ .configMapName }}
+              key: {{ .valueKey }}
+        {{- end }}
