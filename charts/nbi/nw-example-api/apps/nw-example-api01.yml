@@ -1,5 +1,6 @@
 metadata:
   name: nw-example-api01
+  namespace: dev
 spec:
   replicas: 1
   image: nginx
