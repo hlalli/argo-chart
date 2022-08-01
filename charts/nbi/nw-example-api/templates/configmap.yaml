@@ -12,7 +12,7 @@ metadata:
     run: {{ $configData.metadata.name }}
 data:
   {{- range $key, $val := $configData.data }}
-  {{ $key }}: {{ $val | quote }}
+  {{ $key }}: {{ $val }}
   {{- end }}
 
 {{ end -}}

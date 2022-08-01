@@ -2,5 +2,5 @@ metadata:
   name: nginx-config
   namespace: dev
 data:
-  prueba: config-cambio-checksum-tomaIII
-  prueba2: configIII-tambien
+  prueba: config-cambio-checksum-tomaVI
+  prueba2: configVI-tambien

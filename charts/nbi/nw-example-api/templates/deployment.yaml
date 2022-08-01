@@ -1,28 +1,35 @@
-{{- range $originsPath, $globlBytes := .Files.Glob "apps/*.yml" -}}
-{{ $originsData := $.Files.Get $originsPath | fromYaml -}}
+{{- range $deployPath, $deployBytes := .Files.Glob "apps/*.yml" -}}
+{{ $deployData := $.Files.Get $deployPath | fromYaml -}}
 
 ---
 
-apiVersion: apps/v1
+apiVersion: v1
 kind: Deployment
 metadata:
-  name: {{ $originsData.metadata.name }}
+  name: {{ $deployData.metadata.name }}
 spec:
   selector:
     matchLabels:
-      run: {{ $originsData.metadata.name }}
-  replicas: {{ $originsData.spec.replicas }}
+      run: {{ $deployData.metadata.name }}
+  replicas: {{ $deployData.spec.replicas }}
   template:
     metadata:
       labels:
-        run: {{ $originsData.metadata.name }}
+        run: {{ $deployData.metadata.name }}
       annotations:
-        checksum/config: {{ include (printf "config/$s.yml" $originsData.metadata.name ) . | sha256sum }}
+        checksum/config: {{ $.Files.Get (print "config/" $deployData.metadata.name ".yml") | sha256sum  }}
     spec:
       containers:
-      - name: {{ $originsData.metadata.name }}
-        image: {{ $originsData.spec.image }}
+      - name: {{ $deployData.metadata.name }}
+        image: {{ $deployData.spec.image }}
         ports:
-        - containerPort: {{ $originsData.spec.containerPort }}
-
+        - containerPort: {{ $deployData.spec.containerPort }}
+        env:
+        {{- range $deployData.configuration }}
+        - name: {{ .name }}
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .configMapName }}
+              key: {{ .valueKey }}
+        {{- end }}
 {{ end -}}
