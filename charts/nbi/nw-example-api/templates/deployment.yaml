@@ -1,28 +1,28 @@
-{{- range $appsPath, $appsBytes := .Files.Glob "apps/*.yml" -}}
-{{ $appsData := $.Files.Get $appsPath | fromYaml -}}
+{{- range $originsPath, $globlBytes := .Files.Glob "apps/*.yml" -}}
+{{ $originsData := $.Files.Get $originsPath | fromYaml -}}
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $appsData.metadata.name }}
+  name: {{ $originsData.metadata.name }}
 spec:
   selector:
     matchLabels:
-      run: {{ $appsData.metadata.name }}
-  replicas: {{ $appsData.spec.replicas }}
+      run: {{ $originsData.metadata.name }}
+  replicas: {{ $apporiginsDataData.spec.replicas }}
   template:
     metadata:
       labels:
-        run: {{ $appsData.metadata.name }}
+        run: {{ $originsData.metadata.name }}
       annotations:
-        checksum/config: {{ include (printf "config/$s.yml" $appsData.metadata.name ) . | sha256sum }}
+        checksum/config: {{ include (printf "config/$s.yml" $originsData.metadata.name ) . | sha256sum }}
     spec:
       containers:
-      - name: {{ $appsData.metadata.name }}
-        image: {{ $appsData.spec.image }}
+      - name: {{ $originsData.metadata.name }}
+        image: {{ $originsData.spec.image }}
         ports:
-        - containerPort: {{ $appsData.spec.containerPort }}
+        - containerPort: {{ $originsData.spec.containerPort }}
 
 {{ end -}}
