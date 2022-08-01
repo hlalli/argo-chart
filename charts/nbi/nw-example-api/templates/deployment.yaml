@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       run: {{ $originsData.metadata.name }}
-  replicas: {{ $apporiginsDataData.spec.replicas }}
+  replicas: {{ $originsData.spec.replicas }}
   template:
     metadata:
       labels:
