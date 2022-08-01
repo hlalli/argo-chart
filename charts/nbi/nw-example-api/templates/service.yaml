@@ -16,3 +16,5 @@ spec:
   type: {{ $serviceData.spec.type }}
   selector:
     run: {{ $serviceData.metadata.name }}
+
+{{ end -}}

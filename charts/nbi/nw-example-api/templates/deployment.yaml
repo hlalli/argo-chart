@@ -32,3 +32,5 @@ spec:
               name: {{ .configMapName }}
               key: {{ .valueKey }}
         {{- end }}
+
+{{ end -}}
