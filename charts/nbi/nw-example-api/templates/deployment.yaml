@@ -24,13 +24,5 @@ spec:
         image: {{ $appsData.spec.image }}
         ports:
         - containerPort: {{ $appsData.spec.containerPort }}
-        env:
-        {{- range $appsData.spec.configuration }}
-        - name: {{ .key }}
-          valueFrom:
-            configMapKeyRef:
-              name: {{ .configMapName }}
-              key: {{ .valueKey }}
-        {{- end }}
 
 {{ end -}}
